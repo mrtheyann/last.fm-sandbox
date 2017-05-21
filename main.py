@@ -5,6 +5,7 @@
 
 import pylast
 import sys
+import csv
 
 API_KEY = "API_KEY"
 API_SECRET = "API_SECRET"
@@ -17,7 +18,7 @@ network = pylast.LastFMNetwork(api_key=API_KEY, api_secret=API_SECRET,
 
 user = network.get_user(username)
 
-#temporal unicode printer
+#temporal unicode printer for windows console
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     enc = file.encoding
     if enc == 'UTF-8':
@@ -26,12 +27,33 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         f = lambda obj: str(obj).encode(enc, errors='backslashreplace').decode(enc)
         print(*map(f, objects), sep=sep, end=end, file=file)
 
-def main():
-  library = user.get_library()
-  artists = library.get_artists(limit=50)
-  for item in artists:
-    uprint(item[0])
+def get_artists(limit=None):
+  
+  '''
+  Write first N artists sorted by playcount in a csv file
+  '''
 
+  if limit is not None:
+    limit = int(limit)
+
+  library = user.get_library()
+  artists = library.get_artists(limit=limit)
+  
+  with open('Artists.csv', 'w+', encoding='utf-8', newline='') as csv_file:
+    writer = csv.writer(csv_file, delimiter=',')
+    
+    for item in artists:
+      writer.writerow(item)
+    
+    csv_file.close()
+
+
+
+def main():
+  if len(sys.argv) < 2:
+    get_artists()
+  else:
+    get_artists(sys.argv[1])
 
 if __name__ == '__main__':
   main()
