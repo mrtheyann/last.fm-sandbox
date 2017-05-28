@@ -2,6 +2,7 @@
 #!/usr/local/bin/env python3
 
 #fuzzy as hell, I hope that no one ever would find this piece of code
+#Once I commit in this repo just for a green square in github while ending up a semester in university. I still feel uncomfortable about this
 
 import pylast
 import sys
@@ -18,8 +19,12 @@ network = pylast.LastFMNetwork(api_key=API_KEY, api_secret=API_SECRET,
 
 user = network.get_user(username)
 
-#temporal unicode printer for windows console
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
+
+  '''
+  Temporal unicode printer for windows console
+  '''
+
     enc = file.encoding
     if enc == 'UTF-8':
         print(*objects, sep=sep, end=end, file=file)
