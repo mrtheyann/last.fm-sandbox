@@ -52,6 +52,24 @@ def get_artists(limit=None):
     
     csv_file.close()
 
+def get_artist_tracks(artist, limit=None):
+
+  '''
+  Write first N tracks of artist sorted by popularity in a csv file
+  '''
+
+  tracks = artist.get_top_tracks()
+
+  if limit is not None:
+    limit = int(limit)
+
+  with open('TopTracks{0}.csv'.format(artist), 'w+', encoding='utf-8', newline='') as csv_file:
+    writer = csv.writer(csv_file, delimiter=',')
+
+    for track in tracks:
+      writer.writerow(track)
+
+    csv_file.close()
 
 
 def main():
