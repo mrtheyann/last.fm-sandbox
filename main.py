@@ -37,6 +37,7 @@ def get_artists(limit=None):
     
     csv_file.close()
 
+
 def get_artist_tracks(name, limit=None):
 
   '''
@@ -59,13 +60,32 @@ def get_artist_tracks(name, limit=None):
     csv_file.close()
 
 
+def parse_artists(filename='Artists.csv'):
+
+  '''
+  Get names of artists from user's csv file
+  '''
+
+  artists = []
+
+  with open(filename, encoding='utf-8', newline='') as csv_file:
+    reader = csv.reader(csv_file, delimiter=',')
+
+    for item in reader:
+      artists.append(item)
+
+    csv_file.close()
+
+  return artists
+
+
 def main():
   
   '''
   Entry point. Currently fuzzy and non-sense.
   Yet, you can get artists or top tracks.
   '''
-  
+
   if len(sys.argv) < 2:
     #get_artists()
     get_artist_tracks(sys.argv[1])
